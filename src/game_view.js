@@ -18,6 +18,8 @@ GameView.prototype.bindKeyHandlers = function bindKeyHandlers() {
         const move = GameView.MOVES[k];
         key(k, function () { ship.power(move); });
     });
+
+    key("space", function () { ship.fireBullet(); });
 };
 
 GameView.prototype.start = function start() {

@@ -1,5 +1,6 @@
 const MovingObject = require("./moving_object");
 const Util = require('./util');
+const Bullet = require("./bullet");
 
 function randomColor() {
     const hexDigits = "0123456789ABCDEF";
@@ -21,6 +22,34 @@ function Ship(options) {
 }
 
 Ship.RADIUS = 15;
+
+Util.inherits(Ship, MovingObject);
+
+Ship.prototype.fireBullet = function fireBullet() {
+    const norm = Util.norm(this.vel);
+
+    if (norm === 0) {
+        return;
+    }
+
+    const relVel = Util.scale(
+        Util.dir(this.vel),
+        Bullet.SPEED
+    );
+
+    const bulletVel = [
+        relVel[0] + this.vel[0], relVel[1] + this.vel[1]
+    ];
+
+    const bullet = new Bullet({
+        pos: this.pos,
+        vel: bulletVel,
+        color: this.color,
+        game: this.game
+    });
+
+    this.game.add(bullet);
+};
 
 Ship.prototype.power = function power(impulse) {
     this.vel[0] += impulse[0];
