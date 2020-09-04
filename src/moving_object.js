@@ -1,11 +1,17 @@
 const Util = require("./util");
+const Game = require("./game");
 
 function MovingObject(options) {
     this.pos = options.pos;
     this.vel = options.vel;
     this.radius = options.radius;
     this.color = options.color;
+    this.game = options.game;
 }
+
+MovingObject.prototype.collideWith = function collideWith(otherObject) {
+    Game.prototype.remove();
+};
 
 MovingObject.prototype.draw = function draw(ctx) {
     ctx.fillStyle = this.color;
@@ -16,6 +22,11 @@ MovingObject.prototype.draw = function draw(ctx) {
     );
     ctx.fill();
 };
+
+MovingObject.prototype.isCollidedWith = function isCollidedWith(otherObject) {
+    const centerDist = Util.dist(this.pos, otherObject.pos);
+    return centerDist < (this.radius + otherObject.radius);
+}
 
 const NORMAL_FRAME_TIME_DELTA = 1000 / 60;
 MovingObject.prototype.move = function move(timeDelta) {

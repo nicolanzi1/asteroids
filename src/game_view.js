@@ -6,7 +6,7 @@ function GameView(game, ctx) {
 }
 
 GameView.prototype.start = function start() {
-    setInterval(Game.prototype.moveObjects(), 20);
+    setInterval(Game.prototype.step(), 20);
     setInterval(Game.prototype.draw(), 20);
 };
 
