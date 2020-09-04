@@ -75,6 +75,11 @@ Game.prototype.draw = function draw(ctx) {
     });
 };
 
+Game.prototype.isOutOfBounds = function isOutOfBounds(pos) {
+    return (pos[0] < 0) || (pos[1] < 0) ||
+        (pos[0] > Game.DIM_X) || (pos[1] > DIM_Y);
+};
+
 Game.prototype.moveObjects = function moveObjects() {
     this.allObjects().forEach(function(object) {
         object.move();

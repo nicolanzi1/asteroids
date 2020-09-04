@@ -28,6 +28,8 @@ MovingObject.prototype.isCollidedWith = function isCollidedWith(otherObject) {
     return centerDist < (this.radius + otherObject.radius);
 }
 
+MovingObject.prototype.isWrappable = true;
+
 const NORMAL_FRAME_TIME_DELTA = 1000 / 60;
 MovingObject.prototype.move = function move(timeDelta) {
     const velocityScale = timeDelta / NORMAL_FRAME_TIME_DELTA,
