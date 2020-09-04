@@ -10,7 +10,7 @@ function MovingObject(options) {
 }
 
 MovingObject.prototype.collideWith = function collideWith(otherObject) {
-    Game.prototype.remove();
+    
 };
 
 MovingObject.prototype.draw = function draw(ctx) {

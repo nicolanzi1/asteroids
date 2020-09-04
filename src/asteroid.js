@@ -19,4 +19,12 @@ function Asteroid(options) {
 
 Util.inherits(Asteroid, MovingObject);
 
+Asteroid.prototype.collideWith = function collideWith(otherObject) {
+    if (otherObject instanceof Ship) {
+        otherObject.relocate();
+        return true;
+    }
+    return false;
+};
+
 module.exports = Asteroid;

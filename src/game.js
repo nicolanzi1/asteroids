@@ -1,19 +1,24 @@
 const Asteroid = require("./asteroid");
-const Util = require('./util');
+const Ship = require("./ship");
+const Util = require("./util");
 
 function Game() {
     this.asteroids = [];
+    this.ships = [];
 
     this.addAsteroids();
 }
 
+Game.BG_COLOR = "#000000";
 Game.DIM_X = 1000;
 Game.DIM_Y = 600;
-Game.NUM_ASTEROIDS = 4;
+Game.NUM_ASTEROIDS = 10;
 
 Game.prototype.add = function add(object) {
     if (object instanceof Asteroid) {
         this.asteroids.push(object);
+    } else if (object instanceof Ship) {
+        this.ships.push(object);
     } else {
         throw new Error("unknown type of object");
     }
@@ -25,8 +30,19 @@ Game.prototype.addAsteroids = function addAsteroids() {
     }
 };
 
+Game.prototype.addShip = function addShip() {
+    const ship = new Ship({
+        pos: this.randomPosition(),
+        game: this
+    });
+
+    this.add(ship);
+
+    return ship;
+};
+
 Game.prototype.allObjects = function allObjects() {
-    return [].concat(this.asteroids);
+    return [].concat(this.ships, this.asteroids);
 };
 
 Game.prototype.checkCollisions = function checkCollisions() {
@@ -46,6 +62,7 @@ Game.prototype.checkCollisions = function checkCollisions() {
 
 Game.prototype.draw = function draw(ctx) {
     ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+    ctx.fillStyle = Game.BG_COLOR;
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
 
     this.allObjects().forEach(function(object) {
@@ -66,17 +83,19 @@ Game.prototype.randomPosition = function randomPosition() {
     ];
 };
 
-Game.prototype.step = function step() {
-    this.moveObjects();
-    this.checkCollisions();
-};
-
 Game.prototype.remove = function remove(object) {
     if (object instanceof Asteroid) {
         this.asteroids.splice(this.asteroids.indexOf(object), 1);
+    } else if (object instanceof Ship) {
+        this.ships.splice(this.ships.indexOf(object), 1);
     } else {
         throw new Error("unknown type of object");
     }
+};
+
+Game.prototype.step = function step() {
+    this.moveObjects();
+    this.checkCollisions();
 };
 
 Game.prototype.wrap = function wrap(pos) {
