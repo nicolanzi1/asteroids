@@ -12,10 +12,10 @@ function Game() {
 }
 
 Game.BG_COLOR = "#000000";
-Game.DIM_X = 1000;
-Game.DIM_Y = 600;
+Game.DIM_X = 1400;
+Game.DIM_Y = 650;
 Game.FPS = 32;
-Game.NUM_ASTEROIDS = 10;
+Game.NUM_ASTEROIDS = 20;
 
 Game.prototype.add = function add(object) {
     if (object instanceof Asteroid) {
@@ -77,12 +77,12 @@ Game.prototype.draw = function draw(ctx) {
 
 Game.prototype.isOutOfBounds = function isOutOfBounds(pos) {
     return (pos[0] < 0) || (pos[1] < 0) ||
-        (pos[0] > Game.DIM_X) || (pos[1] > DIM_Y);
+        (pos[0] > Game.DIM_X) || (pos[1] > Game.DIM_Y);
 };
 
-Game.prototype.moveObjects = function moveObjects() {
+Game.prototype.moveObjects = function moveObjects(delta) {
     this.allObjects().forEach(function(object) {
-        object.move();
+        object.move(delta);
     });
 };
 
@@ -95,7 +95,7 @@ Game.prototype.randomPosition = function randomPosition() {
 
 Game.prototype.remove = function remove(object) {
     if (object instanceof Bullet) {
-        this.bullets.splice(this.bullets.indexOf(object));
+        this.bullets.splice(this.bullets.indexOf(object), 1);
     } else if (object instanceof Asteroid) {
         this.asteroids.splice(this.asteroids.indexOf(object), 1);
     } else if (object instanceof Ship) {
@@ -105,8 +105,8 @@ Game.prototype.remove = function remove(object) {
     }
 };
 
-Game.prototype.step = function step() {
-    this.moveObjects();
+Game.prototype.step = function step(delta) {
+    this.moveObjects(delta);
     this.checkCollisions();
 };
 
